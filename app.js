@@ -9,7 +9,7 @@ app.get('/', function(req, res){
   try {
     const query = req.query.q;
 
-    const response = fetch(decodeURI(query));
+    const response = fetch(decodeURIComponent(query));
 
     output = {"result": "success", "response": response};
   }
