@@ -3,20 +3,29 @@ const fetch = require('node-fetch');
 
 const app = express();
 
+async function getData(url) {
+  const response = await fetch(url);
+  const jsonResponse = await response.json();
+
+  // console.log(jsonResponse);
+  return jsonResponse;
+};
+
 app.get('/', function(req, res){
   let output;
+  const query = req.query.q
 
-  try {
-    const query = req.query.q;
-
-    const response = fetch(decodeURIComponent(query));
-
+  getData(decodeURIComponent(query))
+  .then((response)=>{
     output = {"result": "success", "response": response};
-  }
-  catch(e) {
+    // console.log(output)
+  })
+  .catch((e)=>{
     output = {"result": "error", "error": "Unable to fetch. Name: " + e.name + ", Message: " + e.message};
-  }
-  res.send(output);
+  })
+  .finally(()=>{
+    res.send(output);
+  });
 });
 
 app.listen(3000, () => console.log("API Server is running..."));
