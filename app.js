@@ -25,6 +25,7 @@ app.get('/', function(req, res){
   })
   .finally(()=>{
     res.send(output);
+    console.log("API result: " + output)
   });
 });
 
